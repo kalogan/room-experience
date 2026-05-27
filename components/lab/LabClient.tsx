@@ -9,6 +9,7 @@ import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
 import { LabBedPanel } from "./LabBedPanel";
 import { LabDeskPanel } from "./LabDeskPanel";
 import { LabNotebookPanel } from "./LabNotebookPanel";
+import { LabTVPanel } from "./LabTVPanel";
 import { LabPanel } from "./LabPanel";
 import { LabScene3DLazy } from "./LabScene3DLazy";
 
@@ -101,14 +102,13 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "The couch. The TV.",
     copy: "Community, talks, workshops, partnerships.",
     prompt: "Settle in?",
-    panel: {
-      title: "Community",
-      description: "RDC, SCAD, IU, talks, workshops, mentorship.",
-      note: "Community memory cards building in Phase 19.",
-    },
     actions: [
-      { id: "tv-community", label: "Browse Community" },
-      { id: "return-room",  label: "Return to Room", variant: "back" },
+      { id: "tv-rdc",        label: "RDC" },
+      { id: "tv-scad",       label: "SCAD" },
+      { id: "tv-iu",         label: "Indiana University" },
+      { id: "tv-talks",      label: "Talks & Workshops" },
+      { id: "tv-mentorship", label: "Mentorship" },
+      { id: "return-room",   label: "Return to Room", variant: "back" },
     ],
   },
   calendar: {
@@ -201,7 +201,11 @@ export function LabClient() {
         "bed-npc-sim":           () => setBedPanel("npc-simulation"),
         "bed-godot":             () => setBedPanel("godot"),
         "bed-webgl":             () => setBedPanel("webgl"),
-        "tv-community":          () => setTVPanel("overview"),
+        "tv-rdc":                () => setTVPanel("rdc"),
+        "tv-scad":               () => setTVPanel("scad"),
+        "tv-iu":                 () => setTVPanel("iu"),
+        "tv-talks":              () => setTVPanel("talks"),
+        "tv-mentorship":         () => setTVPanel("mentorship"),
         "calendar-timeline":     () => setCalendarPanel("overview"),
         "shelf-books":           () => setShelfPanel("books"),
         "shelf-records":         () => setShelfPanel("records"),
@@ -284,6 +288,8 @@ export function LabClient() {
           <LabNotebookPanel />
         ) : location === "bed" ? (
           <LabBedPanel />
+        ) : location === "tv" ? (
+          <LabTVPanel />
         ) : (
           scene.panel && (
             <LabPanel
