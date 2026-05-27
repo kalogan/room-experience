@@ -4,12 +4,12 @@ import { useLabStore } from "@/store/labStore";
 import type { NotebookPanel } from "@/store/labStore";
 import { LabPanel } from "./LabPanel";
 
-// ─── Notebook entries ─────────────────────────────────────────────────────────
+// ─── Process entries ──────────────────────────────────────────────────────────
 
 type Status = "shipped" | "in progress" | "research";
 
 type Entry = {
-  id: Exclude<NotebookPanel, "overview">;
+  id: Exclude<NotebookPanel, "overview" | "concepts">;
   title: string;
   area: string;
   status: Status;
@@ -85,6 +85,48 @@ const ENTRIES: Entry[] = [
   },
 ];
 
+// ─── Concept explorer ─────────────────────────────────────────────────────────
+
+type Concept = {
+  id: string;
+  title: string;
+  principle: string;
+  projects: string[];
+};
+
+const CONCEPTS: Concept[] = [
+  {
+    id: "api-first",
+    title: "API-First Design",
+    principle: "Design for developers before designing for end users.",
+    projects: ["TTS / Captioning", "Replay System"],
+  },
+  {
+    id: "complexity-floors",
+    title: "Complexity Floors + Ceilings",
+    principle: "Every tool needs a 'just works' floor and a power-user ceiling.",
+    projects: ["NPC Bots", "Replay System", "Localization"],
+  },
+  {
+    id: "ai-as-reducer",
+    title: "AI as Cognitive Reducer",
+    principle: "Use AI to reduce burden — not replace judgment.",
+    projects: ["NPC Bots", "Feedback Mode"],
+  },
+  {
+    id: "accessibility-infra",
+    title: "Accessibility as Infrastructure",
+    principle: "Accessibility belongs in the platform layer, not the feature layer.",
+    projects: ["TTS / Captioning", "Localization"],
+  },
+  {
+    id: "creator-first",
+    title: "Creator-First Systems",
+    principle: "Building for creators unlocks better experiences for players.",
+    projects: ["Localization", "Feedback Mode", "NPC Bots"],
+  },
+];
+
 // ─── Views ────────────────────────────────────────────────────────────────────
 
 function StatusPill({ status }: { status: Status }) {
@@ -132,12 +174,42 @@ function EntryView({ entry }: { entry: Entry }) {
   );
 }
 
+function ConceptsView() {
+  return (
+    <LabPanel title="Concept Explorer">
+      <ul className="flex flex-col gap-3">
+        {CONCEPTS.map((c) => (
+          <li key={c.id}>
+            <p className="mb-0.5 text-[11px] font-semibold text-fg opacity-80">
+              {c.title}
+            </p>
+            <p className="mb-1 text-[10px] leading-snug text-fg-muted opacity-60">
+              {c.principle}
+            </p>
+            <div className="flex flex-wrap gap-1">
+              {c.projects.map((p) => (
+                <span
+                  key={p}
+                  className="rounded border border-border px-1.5 py-0.5 font-mono text-[8px] text-fg-muted opacity-50"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </LabPanel>
+  );
+}
+
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabNotebookPanel() {
   const notebookPanel = useLabStore((s) => s.notebookPanel);
 
-  if (notebookPanel === "overview") return <Overview />;
+  if (notebookPanel === "overview")  return <Overview />;
+  if (notebookPanel === "concepts")  return <ConceptsView />;
 
   const entry = ENTRIES.find((e) => e.id === notebookPanel);
   if (!entry) return null;

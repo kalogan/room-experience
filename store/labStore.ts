@@ -18,6 +18,7 @@ export type DeskPanel = "home" | "work" | "terminal" | "simulator";
 
 export type NotebookPanel =
   | "overview"
+  | "concepts"
   | "replay"
   | "localization"
   | "tts-captioning"

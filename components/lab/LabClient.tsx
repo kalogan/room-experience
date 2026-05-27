@@ -73,6 +73,7 @@ const scenes: Record<LabLocation, SceneConfig> = {
     copy: "Process, prototypes, branching decisions.",
     prompt: "What would you like to explore?",
     actions: [
+      { id: "notebook-concepts",     label: "Concept Explorer" },
       { id: "notebook-replay",       label: "Replay System" },
       { id: "notebook-localization", label: "Localization" },
       { id: "notebook-tts",          label: "TTS / Captioning" },
@@ -191,6 +192,7 @@ export function LabClient() {
         "desk-work":             () => setDeskPanel("work"),
         "desk-terminal":         () => setDeskPanel("terminal"),
         "desk-simulator":        () => setDeskPanel("simulator"),
+        "notebook-concepts":     () => setNotebookPanel("concepts"),
         "notebook-replay":       () => setNotebookPanel("replay"),
         "notebook-localization": () => setNotebookPanel("localization"),
         "notebook-tts":          () => setNotebookPanel("tts-captioning"),
