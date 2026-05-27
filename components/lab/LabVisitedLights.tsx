@@ -23,28 +23,28 @@ const DEFS: VisitedLightDef[] = [
     locations: ["bed"],
     position: [4.2, 1.2, -0.7],
     color: "#7a4018",
-    maxIntensity: 1.2,
+    maxIntensity: 2.8,
   },
   {
     // Shelf — cool focused blue, like a reading light
     locations: ["shelf"],
     position: [-4.0, 2.5, -3.5],
     color: "#243060",
-    maxIntensity: 0.9,
+    maxIntensity: 2.2,
   },
   {
     // Calendar — warm neutral, like ambient room diffusion
     locations: ["calendar"],
     position: [0.8, 2.6, -3.6],
     color: "#604830",
-    maxIntensity: 0.7,
+    maxIntensity: 1.8,
   },
   {
     // Couch / TV area — supplements the existing TV glow
     locations: ["tv"],
     position: [1.8, 1.6, 0.9],
     color: "#182840",
-    maxIntensity: 0.8,
+    maxIntensity: 2.0,
   },
 ];
 
