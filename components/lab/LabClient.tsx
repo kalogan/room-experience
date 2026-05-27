@@ -7,6 +7,7 @@ import { LabShell } from "./LabShell";
 import { LabBreadcrumb } from "./LabBreadcrumb";
 import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
 import { LabBedPanel } from "./LabBedPanel";
+import { LabCalendarPanel } from "./LabCalendarPanel";
 import { LabDeskPanel } from "./LabDeskPanel";
 import { LabNotebookPanel } from "./LabNotebookPanel";
 import { LabTVPanel } from "./LabTVPanel";
@@ -116,14 +117,12 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "The wall calendar.",
     copy: "Work eras, milestones, conferences, partnerships.",
     prompt: "Take a look?",
-    panel: {
-      title: "Career Timeline",
-      description: "Milestones, talks, partnerships, and work eras.",
-      note: "Timeline building in Phase 20.",
-    },
     actions: [
-      { id: "calendar-timeline", label: "View Timeline" },
-      { id: "return-room",       label: "Return to Room", variant: "back" },
+      { id: "calendar-work",        label: "Work Era" },
+      { id: "calendar-community",   label: "Community" },
+      { id: "calendar-talks",       label: "Talks" },
+      { id: "calendar-experiments", label: "Experiments" },
+      { id: "return-room",          label: "Return to Room", variant: "back" },
     ],
   },
   shelf: {
@@ -206,7 +205,10 @@ export function LabClient() {
         "tv-iu":                 () => setTVPanel("iu"),
         "tv-talks":              () => setTVPanel("talks"),
         "tv-mentorship":         () => setTVPanel("mentorship"),
-        "calendar-timeline":     () => setCalendarPanel("overview"),
+        "calendar-work":         () => setCalendarPanel("work"),
+        "calendar-community":    () => setCalendarPanel("community"),
+        "calendar-talks":        () => setCalendarPanel("talks"),
+        "calendar-experiments":  () => setCalendarPanel("experiments"),
         "shelf-books":           () => setShelfPanel("books"),
         "shelf-records":         () => setShelfPanel("records"),
       };
@@ -290,6 +292,8 @@ export function LabClient() {
           <LabBedPanel />
         ) : location === "tv" ? (
           <LabTVPanel />
+        ) : location === "calendar" ? (
+          <LabCalendarPanel />
         ) : (
           scene.panel && (
             <LabPanel
