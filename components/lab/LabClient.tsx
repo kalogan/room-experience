@@ -7,6 +7,7 @@ import { LabShell } from "./LabShell";
 import { LabBreadcrumb } from "./LabBreadcrumb";
 import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
 import { LabDeskPanel } from "./LabDeskPanel";
+import { LabNotebookPanel } from "./LabNotebookPanel";
 import { LabPanel } from "./LabPanel";
 import { LabScene3DLazy } from "./LabScene3DLazy";
 
@@ -71,11 +72,6 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "Design notebook.",
     copy: "Process, prototypes, branching decisions.",
     prompt: "What would you like to explore?",
-    panel: {
-      title: "Design Notebook",
-      description: "Process documentation, prototype cards, and concept decisions.",
-      note: "Process cards and concept explorer building in Phase 14–16.",
-    },
     actions: [
       { id: "notebook-replay",       label: "Replay System" },
       { id: "notebook-localization", label: "Localization" },
@@ -278,6 +274,8 @@ export function LabClient() {
 
         {location === "laptop" ? (
           <LabDeskPanel />
+        ) : location === "notebook" ? (
+          <LabNotebookPanel />
         ) : (
           scene.panel && (
             <LabPanel
