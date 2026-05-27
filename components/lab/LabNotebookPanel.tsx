@@ -152,9 +152,9 @@ function Overview() {
   );
 }
 
-function EntryView({ entry }: { entry: Entry }) {
+function EntryView({ entry, onBack }: { entry: Entry; onBack: () => void }) {
   return (
-    <LabPanel title={entry.title}>
+    <LabPanel title={entry.title} onBack={onBack}>
       <div className="mb-2 flex items-center gap-2">
         <span className="font-mono text-[9px] uppercase tracking-wider text-fg-muted opacity-40">
           {entry.area}
@@ -174,9 +174,9 @@ function EntryView({ entry }: { entry: Entry }) {
   );
 }
 
-function ConceptsView() {
+function ConceptsView({ onBack }: { onBack: () => void }) {
   return (
-    <LabPanel title="Concept Explorer">
+    <LabPanel title="Concept Explorer" onBack={onBack}>
       <ul className="flex flex-col gap-3">
         {CONCEPTS.map((c) => (
           <li key={c.id}>
@@ -206,13 +206,15 @@ function ConceptsView() {
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabNotebookPanel() {
-  const notebookPanel = useLabStore((s) => s.notebookPanel);
+  const notebookPanel    = useLabStore((s) => s.notebookPanel);
+  const setNotebookPanel = useLabStore((s) => s.setNotebookPanel);
+  const toOverview = () => setNotebookPanel("overview");
 
-  if (notebookPanel === "overview")  return <Overview />;
-  if (notebookPanel === "concepts")  return <ConceptsView />;
+  if (notebookPanel === "overview") return <Overview />;
+  if (notebookPanel === "concepts") return <ConceptsView onBack={toOverview} />;
 
   const entry = ENTRIES.find((e) => e.id === notebookPanel);
   if (!entry) return null;
 
-  return <EntryView entry={entry} />;
+  return <EntryView entry={entry} onBack={toOverview} />;
 }

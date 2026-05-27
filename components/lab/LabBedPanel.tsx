@@ -100,9 +100,9 @@ function Overview() {
   );
 }
 
-function ExperimentView({ exp }: { exp: Experiment }) {
+function ExperimentView({ exp, onBack }: { exp: Experiment; onBack: () => void }) {
   return (
-    <LabPanel title={exp.title}>
+    <LabPanel title={exp.title} onBack={onBack}>
       <div className="mb-2 flex items-center gap-2">
         <span className="font-mono text-[9px] uppercase tracking-wider text-fg-muted opacity-40">
           {exp.tech}
@@ -125,12 +125,14 @@ function ExperimentView({ exp }: { exp: Experiment }) {
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabBedPanel() {
-  const bedPanel = useLabStore((s) => s.bedPanel);
+  const bedPanel    = useLabStore((s) => s.bedPanel);
+  const setBedPanel = useLabStore((s) => s.setBedPanel);
+  const toOverview  = () => setBedPanel("overview");
 
   if (bedPanel === "overview") return <Overview />;
 
   const exp = EXPERIMENTS.find((e) => e.id === bedPanel);
   if (!exp) return null;
 
-  return <ExperimentView exp={exp} />;
+  return <ExperimentView exp={exp} onBack={toOverview} />;
 }

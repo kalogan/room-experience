@@ -86,9 +86,9 @@ function Overview() {
   );
 }
 
-function SectionView({ section }: { section: ShelfSection }) {
+function SectionView({ section, onBack }: { section: ShelfSection; onBack: () => void }) {
   return (
-    <LabPanel title={section.title}>
+    <LabPanel title={section.title} onBack={onBack}>
       <ul className="flex flex-col gap-2.5">
         {section.items.map((item, i) => (
           <li key={i}>
@@ -113,12 +113,14 @@ function SectionView({ section }: { section: ShelfSection }) {
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabShelfPanel() {
-  const shelfPanel = useLabStore((s) => s.shelfPanel);
+  const shelfPanel    = useLabStore((s) => s.shelfPanel);
+  const setShelfPanel = useLabStore((s) => s.setShelfPanel);
+  const toOverview    = () => setShelfPanel("overview");
 
   if (shelfPanel === "overview") return <Overview />;
 
   const section = SECTIONS.find((s) => s.id === shelfPanel);
   if (!section) return null;
 
-  return <SectionView section={section} />;
+  return <SectionView section={section} onBack={toOverview} />;
 }

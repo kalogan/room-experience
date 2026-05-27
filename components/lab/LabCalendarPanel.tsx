@@ -102,9 +102,9 @@ function Overview() {
   );
 }
 
-function SectionView({ section }: { section: Section }) {
+function SectionView({ section, onBack }: { section: Section; onBack: () => void }) {
   return (
-    <LabPanel title={section.title}>
+    <LabPanel title={section.title} onBack={onBack}>
       <TimelineList entries={section.entries} />
     </LabPanel>
   );
@@ -113,12 +113,14 @@ function SectionView({ section }: { section: Section }) {
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabCalendarPanel() {
-  const calendarPanel = useLabStore((s) => s.calendarPanel);
+  const calendarPanel    = useLabStore((s) => s.calendarPanel);
+  const setCalendarPanel = useLabStore((s) => s.setCalendarPanel);
+  const toOverview       = () => setCalendarPanel("overview");
 
   if (calendarPanel === "overview") return <Overview />;
 
   const section = SECTIONS.find((s) => s.id === calendarPanel);
   if (!section) return null;
 
-  return <SectionView section={section} />;
+  return <SectionView section={section} onBack={toOverview} />;
 }

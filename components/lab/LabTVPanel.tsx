@@ -90,9 +90,9 @@ function Overview() {
   );
 }
 
-function EntryView({ entry }: { entry: CommunityEntry }) {
+function EntryView({ entry, onBack }: { entry: CommunityEntry; onBack: () => void }) {
   return (
-    <LabPanel title={entry.title}>
+    <LabPanel title={entry.title} onBack={onBack}>
       <p className="mb-2 font-mono text-[9px] uppercase tracking-wider text-fg-muted opacity-40">
         {entry.category}
       </p>
@@ -111,12 +111,14 @@ function EntryView({ entry }: { entry: CommunityEntry }) {
 // ─── Root export ──────────────────────────────────────────────────────────────
 
 export function LabTVPanel() {
-  const tvPanel = useLabStore((s) => s.tvPanel);
+  const tvPanel    = useLabStore((s) => s.tvPanel);
+  const setTVPanel = useLabStore((s) => s.setTVPanel);
+  const toOverview = () => setTVPanel("overview");
 
   if (tvPanel === "overview") return <Overview />;
 
   const entry = ENTRIES.find((e) => e.id === tvPanel);
   if (!entry) return null;
 
-  return <EntryView entry={entry} />;
+  return <EntryView entry={entry} onBack={toOverview} />;
 }
