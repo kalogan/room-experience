@@ -6,6 +6,7 @@ import { useLabStore, type LabLocation } from "@/store/labStore";
 import { LabShell } from "./LabShell";
 import { LabBreadcrumb } from "./LabBreadcrumb";
 import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
+import { LabBedPanel } from "./LabBedPanel";
 import { LabDeskPanel } from "./LabDeskPanel";
 import { LabNotebookPanel } from "./LabNotebookPanel";
 import { LabPanel } from "./LabPanel";
@@ -87,13 +88,11 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "The nightstand.",
     copy: "A handheld sits there. Game experiments. Playable systems.",
     prompt: "Pick something up?",
-    panel: {
-      title: "Experiments",
-      description: "Playable prototypes and system experiments.",
-      note: "Experiment cards building in Phase 17.",
-    },
     actions: [
-      { id: "bed-experiments", label: "View Experiments" },
+      { id: "bed-air-hockey",  label: "Air Hockey" },
+      { id: "bed-npc-sim",     label: "NPC Simulation" },
+      { id: "bed-godot",       label: "Godot" },
+      { id: "bed-webgl",       label: "WebGL" },
       { id: "return-room",     label: "Return to Room", variant: "back" },
     ],
   },
@@ -198,7 +197,10 @@ export function LabClient() {
         "notebook-tts":          () => setNotebookPanel("tts-captioning"),
         "notebook-npc":          () => setNotebookPanel("npc-bots"),
         "notebook-feedback":     () => setNotebookPanel("feedback-mode"),
-        "bed-experiments":       () => setBedPanel("overview"),
+        "bed-air-hockey":        () => setBedPanel("air-hockey"),
+        "bed-npc-sim":           () => setBedPanel("npc-simulation"),
+        "bed-godot":             () => setBedPanel("godot"),
+        "bed-webgl":             () => setBedPanel("webgl"),
         "tv-community":          () => setTVPanel("overview"),
         "calendar-timeline":     () => setCalendarPanel("overview"),
         "shelf-books":           () => setShelfPanel("books"),
@@ -280,6 +282,8 @@ export function LabClient() {
           <LabDeskPanel />
         ) : location === "notebook" ? (
           <LabNotebookPanel />
+        ) : location === "bed" ? (
+          <LabBedPanel />
         ) : (
           scene.panel && (
             <LabPanel
