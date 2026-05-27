@@ -6,6 +6,7 @@ import { useLabStore, type LabLocation } from "@/store/labStore";
 import { LabShell } from "./LabShell";
 import { LabBreadcrumb } from "./LabBreadcrumb";
 import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
+import { LabDeskPanel } from "./LabDeskPanel";
 import { LabPanel } from "./LabPanel";
 import { LabScene3DLazy } from "./LabScene3DLazy";
 
@@ -58,11 +59,6 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "Work files. Systems.",
     copy: "Platform design, case studies, developer tools.",
     prompt: "What would you like to open?",
-    panel: {
-      title: "Laptop — Work & Tools",
-      description: "Professional work, systems design, and case studies.",
-      note: "Full case studies building in Phase 12.",
-    },
     actions: [
       { id: "desk-work",      label: "View Work" },
       { id: "desk-terminal",  label: "Open Terminal" },
@@ -280,12 +276,16 @@ export function LabClient() {
           onHover={setFocusedIndex}
         />
 
-        {scene.panel && (
-          <LabPanel
-            title={scene.panel.title}
-            description={scene.panel.description}
-            note={scene.panel.note}
-          />
+        {location === "laptop" ? (
+          <LabDeskPanel />
+        ) : (
+          scene.panel && (
+            <LabPanel
+              title={scene.panel.title}
+              description={scene.panel.description}
+              note={scene.panel.note}
+            />
+          )
         )}
       </div>
     </LabShell>
