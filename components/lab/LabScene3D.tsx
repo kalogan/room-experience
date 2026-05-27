@@ -1,6 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
+import { CameraRig } from "./CameraRig";
 import { LabRoom } from "./LabRoom";
 
 // ─── Lighting notes ───────────────────────────────────────────────────────────
@@ -13,7 +14,7 @@ import { LabRoom } from "./LabRoom";
 export default function LabScene3D() {
   return (
     <Canvas
-      camera={{ position: [0, 1.8, 4], fov: 60 }}
+      camera={{ position: [-2.2, 1.35, 1.2], fov: 60 }}
       gl={{ alpha: true, antialias: true }}
       style={{ background: "transparent" }}
     >
@@ -47,6 +48,7 @@ export default function LabScene3D() {
         decay={2}
       />
 
+      <CameraRig />
       <LabRoom />
     </Canvas>
   );
