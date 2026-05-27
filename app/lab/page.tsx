@@ -1,9 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { LabStoreDebug } from "@/components/lab/LabStoreDebug";
 
 export const metadata: Metadata = {
   title: "Lab — Kevin Logan",
-  description: "An interactive portfolio room experience. Late at night. The monitor is still on.",
+  description:
+    "An interactive portfolio room experience. Late at night. The monitor is still on.",
 };
 
 export default function LabPage() {
@@ -21,22 +23,20 @@ export default function LabPage() {
         It&apos;s late. The monitor is still on.
       </p>
 
-      <p className="mb-3 font-mono text-sm text-fg-muted opacity-60">
+      <p className="font-mono text-sm text-fg-muted opacity-60">
         What do you want to do?
       </p>
 
-      <div className="my-8 h-px w-16 bg-border" />
+      <LabStoreDebug />
 
-      <p className="mb-10 font-mono text-xs text-fg-muted opacity-40">
-        Interactive room experience — building now (Phase 05+)
-      </p>
-
-      <Link
-        href="/"
-        className="font-mono text-sm text-fg-muted transition-colors hover:text-fg"
-      >
-        ← Back to home
-      </Link>
+      <div className="mt-10">
+        <Link
+          href="/"
+          className="font-mono text-sm text-fg-muted transition-colors hover:text-fg"
+        >
+          ← Back to home
+        </Link>
+      </div>
     </div>
   );
 }
