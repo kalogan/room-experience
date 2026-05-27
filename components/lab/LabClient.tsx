@@ -10,6 +10,7 @@ import { LabBedPanel } from "./LabBedPanel";
 import { LabCalendarPanel } from "./LabCalendarPanel";
 import { LabDeskPanel } from "./LabDeskPanel";
 import { LabNotebookPanel } from "./LabNotebookPanel";
+import { LabShelfPanel } from "./LabShelfPanel";
 import { LabTVPanel } from "./LabTVPanel";
 import { LabPanel } from "./LabPanel";
 import { LabScene3DLazy } from "./LabScene3DLazy";
@@ -130,15 +131,12 @@ const scenes: Record<LabLocation, SceneConfig> = {
     title: "Bookshelves and a record player.",
     copy: "Books, music, games, creative inputs.",
     prompt: "What interests you?",
-    panel: {
-      title: "Shelf & Records",
-      description: "Books, music, tools, and creative influences.",
-      note: "Shelf and record player building in Phase 21–22.",
-    },
     actions: [
-      { id: "shelf-books",   label: "Browse Books" },
-      { id: "shelf-records", label: "Browse Records" },
-      { id: "return-room",   label: "Return to Room", variant: "back" },
+      { id: "shelf-books",        label: "Books" },
+      { id: "shelf-records",      label: "Records" },
+      { id: "shelf-tools",        label: "Tools" },
+      { id: "shelf-inspirations", label: "Inspirations" },
+      { id: "return-room",        label: "Return to Room", variant: "back" },
     ],
   },
 };
@@ -211,6 +209,8 @@ export function LabClient() {
         "calendar-experiments":  () => setCalendarPanel("experiments"),
         "shelf-books":           () => setShelfPanel("books"),
         "shelf-records":         () => setShelfPanel("records"),
+        "shelf-tools":           () => setShelfPanel("tools"),
+        "shelf-inspirations":    () => setShelfPanel("inspirations"),
       };
       map[actionId]?.();
     },
@@ -294,6 +294,8 @@ export function LabClient() {
           <LabTVPanel />
         ) : location === "calendar" ? (
           <LabCalendarPanel />
+        ) : location === "shelf" ? (
+          <LabShelfPanel />
         ) : (
           scene.panel && (
             <LabPanel
