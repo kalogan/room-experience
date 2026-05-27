@@ -2,6 +2,7 @@
 
 import { useLabStore } from "@/store/labStore";
 import { LabPanel } from "./LabPanel";
+import { LabTerminal } from "./LabTerminal";
 
 // ─── Work content ─────────────────────────────────────────────────────────────
 // Full case-study detail pages wire in Phase 12+.
@@ -33,14 +34,6 @@ function WorkList() {
 
 // ─── Sub-state views ──────────────────────────────────────────────────────────
 
-function TerminalStub() {
-  return (
-    <p className="font-mono text-[10px] text-fg-muted opacity-40">
-      Terminal — building in Phase 13.
-    </p>
-  );
-}
-
 function SimulatorStub() {
   return (
     <p className="font-mono text-[10px] text-fg-muted opacity-40">
@@ -57,13 +50,7 @@ export function LabDeskPanel() {
   // "home" — no panel; scene copy conveys the overview.
   if (deskPanel === "home") return null;
 
-  if (deskPanel === "terminal") {
-    return (
-      <LabPanel title="Terminal">
-        <TerminalStub />
-      </LabPanel>
-    );
-  }
+  if (deskPanel === "terminal") return <LabTerminal />;
 
   if (deskPanel === "simulator") {
     return (
