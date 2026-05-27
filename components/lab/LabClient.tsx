@@ -7,6 +7,7 @@ import { LabShell } from "./LabShell";
 import { LabBreadcrumb } from "./LabBreadcrumb";
 import { LabCommandMenu, type LabMenuAction } from "./LabCommandMenu";
 import { LabPanel } from "./LabPanel";
+import { LabScene3DLazy } from "./LabScene3DLazy";
 
 // ─── Scene data ───────────────────────────────────────────────────────────────
 // Extracted to content/lab/stations.ts in Phase 25.
@@ -163,6 +164,8 @@ export function LabClient() {
     setTVPanel,
     setCalendarPanel,
     setShelfPanel,
+    is3DEnabled,
+    toggle3D,
   } = useLabStore();
 
   const [focusedIndex, setFocusedIndex] = useState(0);
@@ -241,7 +244,18 @@ export function LabClient() {
   }, [location, handleAction]);
 
   return (
-    <LabShell>
+    <LabShell
+      scene3D={is3DEnabled ? <LabScene3DLazy /> : undefined}
+      controls={
+        <button
+          onClick={toggle3D}
+          aria-label={is3DEnabled ? "Switch to 2D mode" : "Switch to 3D mode"}
+          className="font-mono text-[10px] text-fg-muted opacity-30 transition-opacity hover:opacity-70"
+        >
+          {is3DEnabled ? "2D" : "3D"}
+        </button>
+      }
+    >
       <LabBreadcrumb path={scene.breadcrumb} />
 
       {/* Scene copy — key forces re-mount so CSS animation replays on transition */}
