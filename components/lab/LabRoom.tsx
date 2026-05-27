@@ -1,8 +1,13 @@
 "use client";
 
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import { useLabStore } from "@/store/labStore";
+
 // ─── Low-poly room shell — Phase 08
 // All geometry uses BoxGeometry or PlaneGeometry with meshStandardMaterial.
-// No imported models. Camera presets connect in Phase 09.
+// No imported models. Emissive screens react to location state (Phase 10).
 // Visual polish (shadows, detail, proportions) deferred to Phase 27.
 
 // ─── Room structure ───────────────────────────────────────────────────────────
@@ -68,6 +73,18 @@ function Desk() {
 }
 
 function Monitor() {
+  const screenRef = useRef<THREE.MeshStandardMaterial>(null);
+
+  useFrame((_, delta) => {
+    if (!screenRef.current) return;
+    const { location } = useLabStore.getState();
+    const focused =
+      location === "desk-seated" || location === "laptop" || location === "notebook";
+    const target = focused ? 0.85 : 0.25;
+    screenRef.current.emissiveIntensity +=
+      (target - screenRef.current.emissiveIntensity) * Math.min(1, 3 * delta);
+  });
+
   return (
     <group>
       {/* Monitor outer frame */}
@@ -75,10 +92,11 @@ function Monitor() {
         <boxGeometry args={[0.92, 0.63, 0.055]} />
         <meshStandardMaterial color="#080808" roughness={0.4} metalness={0.3} />
       </mesh>
-      {/* Monitor screen — emissive for CRT glow */}
+      {/* Monitor screen — emissive brightens when desk/laptop/notebook is active */}
       <mesh position={[-2.2, 1.28, -1.165]}>
         <boxGeometry args={[0.83, 0.54, 0.01]} />
         <meshStandardMaterial
+          ref={screenRef}
           color="#c8d8ff"
           emissive="#88aaff"
           emissiveIntensity={0.55}
@@ -190,6 +208,16 @@ function Couch() {
 }
 
 function TV() {
+  const screenRef = useRef<THREE.MeshStandardMaterial>(null);
+
+  useFrame((_, delta) => {
+    if (!screenRef.current) return;
+    const { location } = useLabStore.getState();
+    const target = location === "tv" ? 0.65 : 0.15;
+    screenRef.current.emissiveIntensity +=
+      (target - screenRef.current.emissiveIntensity) * Math.min(1, 3 * delta);
+  });
+
   return (
     <group>
       {/* TV body */}
@@ -197,10 +225,11 @@ function TV() {
         <boxGeometry args={[1.12, 0.66, 0.07]} />
         <meshStandardMaterial color="#080808" roughness={0.3} metalness={0.4} />
       </mesh>
-      {/* TV screen — subtle emissive */}
+      {/* TV screen — brightens when tv location is active */}
       <mesh position={[3.5, 1.85, -3.94]}>
         <boxGeometry args={[1.02, 0.56, 0.01]} />
         <meshStandardMaterial
+          ref={screenRef}
           color="#142030"
           emissive="#304878"
           emissiveIntensity={0.3}
