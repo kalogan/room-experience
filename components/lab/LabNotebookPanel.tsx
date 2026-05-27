@@ -5,13 +5,21 @@ import type { NotebookPanel } from "@/store/labStore";
 import { LabPanel } from "./LabPanel";
 
 // ─── Notebook entries ─────────────────────────────────────────────────────────
-// Process notes per project — full cards in Phase 15–16.
+
+type Status = "shipped" | "in progress" | "research";
 
 type Entry = {
-  id: Exclude<NotebookPanel, "overview" | "feedback-mode">;
+  id: Exclude<NotebookPanel, "overview">;
   title: string;
   area: string;
+  status: Status;
   notes: string[];
+};
+
+const STATUS_CLASS: Record<Status, string> = {
+  "shipped":     "text-success",
+  "in progress": "text-warning",
+  "research":    "text-secondary",
 };
 
 const ENTRIES: Entry[] = [
@@ -19,6 +27,7 @@ const ENTRIES: Entry[] = [
     id: "replay",
     title: "Replay System",
     area: "Developer Tools",
+    status: "shipped",
     notes: [
       "Timeline scrubber for post-session game event review",
       "Event markers color-coded by severity and type",
@@ -30,6 +39,7 @@ const ENTRIES: Entry[] = [
     id: "localization",
     title: "Localization Platform",
     area: "Platform · Systems",
+    status: "shipped",
     notes: [
       "End-to-end string extraction, translation, and preview pipeline",
       "Designed for experience makers, not professional translators",
@@ -41,6 +51,7 @@ const ENTRIES: Entry[] = [
     id: "tts-captioning",
     title: "TTS / Captioning",
     area: "Accessibility · API",
+    status: "shipped",
     notes: [
       "API-first direction — caption rendering decoupled from content",
       "Latency tolerance study across dialog, UI, and ambient audio",
@@ -52,6 +63,7 @@ const ENTRIES: Entry[] = [
     id: "npc-bots",
     title: "NPC Bots Management",
     area: "AI · Developer Tools",
+    status: "shipped",
     notes: [
       "Behavior tree visual editor for configuring NPC personalities",
       "Complexity floor: useful out of the box, no scripting required",
@@ -59,9 +71,29 @@ const ENTRIES: Entry[] = [
       "Inline test environment — preview behavior before deployment",
     ],
   },
+  {
+    id: "feedback-mode",
+    title: "Feedback Mode",
+    area: "AI · Platform",
+    status: "shipped",
+    notes: [
+      "Structured in-experience feedback collection for Roblox creators",
+      "Prompts surface at natural friction points, not fixed intervals",
+      "AI-assisted categorization reduces manual creator review burden",
+      "Designed around creator workflow — not IT ticketing patterns",
+    ],
+  },
 ];
 
 // ─── Views ────────────────────────────────────────────────────────────────────
+
+function StatusPill({ status }: { status: Status }) {
+  return (
+    <span className={`font-mono text-[9px] uppercase tracking-wider ${STATUS_CLASS[status]} opacity-70`}>
+      {status}
+    </span>
+  );
+}
 
 function Overview() {
   return (
@@ -70,9 +102,7 @@ function Overview() {
         {ENTRIES.map((e) => (
           <li key={e.id} className="flex items-baseline justify-between gap-3">
             <span className="text-xs text-fg opacity-75">{e.title}</span>
-            <span className="shrink-0 font-mono text-[9px] text-fg-muted opacity-40">
-              {e.area}
-            </span>
+            <StatusPill status={e.status} />
           </li>
         ))}
       </ul>
@@ -83,9 +113,13 @@ function Overview() {
 function EntryView({ entry }: { entry: Entry }) {
   return (
     <LabPanel title={entry.title}>
-      <p className="mb-2 font-mono text-[9px] uppercase tracking-wider text-fg-muted opacity-40">
-        {entry.area}
-      </p>
+      <div className="mb-2 flex items-center gap-2">
+        <span className="font-mono text-[9px] uppercase tracking-wider text-fg-muted opacity-40">
+          {entry.area}
+        </span>
+        <span className="text-fg-muted opacity-30">·</span>
+        <StatusPill status={entry.status} />
+      </div>
       <ul className="flex flex-col gap-1.5">
         {entry.notes.map((note, i) => (
           <li key={i} className="flex gap-2 text-[11px] leading-snug text-fg opacity-65">
