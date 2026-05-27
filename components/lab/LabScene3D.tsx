@@ -2,6 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { CameraRig } from "./CameraRig";
+import { LabHotspots } from "./LabHotspots";
 import { LabRoom } from "./LabRoom";
 
 // ─── Lighting notes ───────────────────────────────────────────────────────────
@@ -49,6 +50,7 @@ export default function LabScene3D() {
       />
 
       <CameraRig />
+      <LabHotspots />
       <LabRoom />
     </Canvas>
   );

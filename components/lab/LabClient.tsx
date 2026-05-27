@@ -269,7 +269,7 @@ export function LabClient() {
       {/* Command menu + station panel */}
       <div
         key={`${location}-menu`}
-        className="animate-fade-in-up w-full max-w-xs"
+        className="animate-fade-in-up pointer-events-auto w-full max-w-xs"
         style={{ animationDelay: "60ms" }}
       >
         <LabCommandMenu

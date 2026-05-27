@@ -42,8 +42,9 @@ export function LabShell({ children, scene3D, controls }: LabShellProps) {
         </div>
       )}
 
-      {/* Main UI overlay */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-12">
+      {/* Main UI overlay — pointer-events-none lets clicks pass through to canvas;
+          interactive children restore pointer-events-auto individually */}
+      <div className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-12">
         {children}
       </div>
     </div>
